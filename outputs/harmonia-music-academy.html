@@ -1,0 +1,1306 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura Music Academy — Building tomorrow’s artists today</title>
+  <meta name="description" content="A premium music education experience by Aura Music Academy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --cream: #fdfbf7;
+      --paper: #f6efe4;
+      --gold: #d4af37;
+      --gold-light: #f0d780;
+      --wine: #6b2a3b;
+      --teal: #1a5b66;
+      --ink: #31272a;
+      --muted: #766b67;
+      --line: rgba(107, 42, 59, .16);
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      overflow-x: hidden
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    ::selection {
+      color: white;
+      background: var(--wine)
+    }
+
+    .preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      background: var(--cream);
+      transition: opacity .55s ease, visibility .55s ease;
+    }
+
+    .preloader.done {
+      opacity: 0;
+      visibility: hidden
+    }
+
+    .vinyl {
+      width: 90px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      position: relative;
+      background: repeating-radial-gradient(circle, #382c2d 0 2px, #1e191a 3px 5px);
+      animation: spin 1.4s linear infinite;
+      box-shadow: 0 14px 30px #6b2a3b44
+    }
+
+    .vinyl:after {
+      content: "";
+      position: absolute;
+      inset: 32px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 8px solid #ead484
+    }
+
+    .preloader p {
+      position: absolute;
+      top: calc(50% + 75px);
+      margin: 0;
+      letter-spacing: .17em;
+      color: var(--wine);
+      text-transform: uppercase;
+      font-size: .66rem;
+      font-weight: bold
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .nav {
+      position: fixed;
+      z-index: 50;
+      top: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px clamp(24px, 6vw, 92px);
+      color: #fff;
+      transition: .35s ease
+    }
+
+    .nav.scrolled {
+      padding-block: 13px;
+      color: var(--ink);
+      background: #fdfbf7ee;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 18px #4e1d2920
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--serif);
+      font-size: 1.23rem;
+      font-weight: 600
+    }
+
+    .brand-mark {
+      color: var(--gold);
+      font-size: 1.75rem;
+      line-height: 0
+    }
+
+    .links {
+      display: flex;
+      gap: clamp(16px, 2.3vw, 37px);
+      font-size: .77rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase
+    }
+
+    .links a {
+      position: relative
+    }
+
+    .links a:after {
+      content: "";
+      position: absolute;
+      height: 2px;
+      background: var(--gold);
+      width: 0;
+      bottom: -8px;
+      left: 0;
+      transition: width .25s
+    }
+
+    .links a:hover:after {
+      width: 100%
+    }
+
+    .menu {
+      display: none;
+      border: 0;
+      background: none;
+      color: currentColor;
+      font-size: 1.5rem
+    }
+
+    .hero {
+      min-height: 100svh;
+      position: relative;
+      color: #fff;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      background: #56332e
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: -7%;
+      background: linear-gradient(90deg, rgba(55, 16, 24, .88) 0%, rgba(79, 27, 33, .52) 48%, rgba(23, 8, 5, .12)), url('https://i.pinimg.com/1200x/e2/04/70/e20470c138f1cf5d0b047d44ed0fc254.jpg') center/cover;
+      z-index: -2;
+      will-change: transform
+    }
+
+    .hero:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .4;
+      z-index: -1;
+      background: radial-gradient(circle at 80% 20%, #e3a64d88, transparent 28%), linear-gradient(105deg, transparent 50%, #d4af3720)
+    }
+
+    .notes {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none
+    }
+
+    .note {
+      position: absolute;
+      color: #f5d672;
+      opacity: .55;
+      font: italic 2rem var(--serif);
+      animation: float var(--d) ease-in-out infinite alternate
+    }
+
+    @keyframes float {
+      to {
+        transform: translate(var(--x), var(--y)) rotate(12deg)
+      }
+    }
+
+    .hero-content {
+      width: min(850px, 90vw);
+      margin: 92px auto 0;
+      padding-right: 20%;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: .7rem;
+      letter-spacing: .19em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--gold-light)
+    }
+
+    .eyebrow:before {
+      content: "";
+      width: 32px;
+      height: 1px;
+      background: currentColor
+    }
+
+    .hero h1 {
+      font: 600 clamp(3.3rem, 8vw, 7rem)/.96 var(--serif);
+      margin: 20px 0 24px;
+      letter-spacing: -.055em;
+      text-shadow: 0 2px 26px #2c0814aa
+    }
+
+    .hero h1 em {
+      color: #f4d575
+    }
+
+    .hero p {
+      max-width: 570px;
+      color: #fbf2e3;
+      font-size: clamp(1rem, 1.5vw, 1.18rem);
+      line-height: 1.7;
+      margin: 0 0 35px
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px
+    }
+
+    .btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 22px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: transform .25s, box-shadow .25s, background .25s
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px #4a152d44
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--wine)
+    }
+
+    .btn-gold:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-110%) skewX(-22deg);
+      background: linear-gradient(90deg, transparent, #fff9, transparent);
+      transition: .5s
+    }
+
+    .btn-gold:hover:before {
+      transform: translateX(110%) skewX(-22deg)
+    }
+
+    .btn-ghost {
+      color: #fff;
+      border-color: #ffffff99;
+      backdrop-filter: blur(3px)
+    }
+
+    .hero-foot {
+      position: absolute;
+      bottom: 24px;
+      left: 6vw;
+      right: 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 700
+    }
+
+    .scroll-mark {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      writing-mode: vertical-rl
+    }
+
+    .scroll-mark:after {
+      content: "";
+      width: 1px;
+      height: 48px;
+      background: #f5d672
+    }
+
+    .hero-number {
+      font: 500 1.15rem var(--serif);
+      color: var(--gold-light)
+    }
+
+    main {
+      overflow: hidden
+    }
+
+    .section {
+      padding: clamp(78px, 11vw, 150px) clamp(24px, 6vw, 92px);
+      position: relative
+    }
+
+    .section-title {
+      max-width: 650px;
+      margin-bottom: 54px
+    }
+
+    .section-title h2 {
+      font: 600 clamp(2.25rem, 4.4vw, 4rem)/1.06 var(--serif);
+      letter-spacing: -.045em;
+      margin: 13px 0 0;
+      color: var(--wine)
+    }
+
+    .section-title p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 18px 0 0;
+      max-width: 560px
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .75s ease, transform .75s cubic-bezier(.2, .7, .2, 1)
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none
+    }
+
+    .about {
+      background: var(--paper);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(35px, 7vw, 112px);
+      align-items: center
+    }
+
+    .about .section-title {
+      margin: 0
+    }
+
+    .about-copy p {
+      color: var(--muted);
+      line-height: 1.82;
+      max-width: 510px
+    }
+
+    .signature {
+      margin-top: 26px;
+      font: italic 1.8rem var(--serif);
+      color: var(--wine)
+    }
+
+    .collage {
+      min-height: 500px;
+      position: relative
+    }
+
+    .collage img {
+      object-fit: cover;
+      position: absolute;
+      box-shadow: 0 17px 32px #4e293033;
+      transition: transform .5s
+    }
+
+    .collage img:hover {
+      transform: scale(1.035) rotate(1deg)
+    }
+
+    .collage .one {
+      width: 75%;
+      height: 73%;
+      top: 0;
+      right: 0
+    }
+
+    .collage .two {
+      width: 54%;
+      height: 45%;
+      bottom: 0;
+      left: 0;
+      border: 10px solid var(--paper)
+    }
+
+    .stamp {
+      position: absolute;
+      z-index: 2;
+      right: 8%;
+      bottom: 8%;
+      width: 132px;
+      height: 132px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--wine);
+      box-shadow: 0 8px 20px #3f102044;
+      text-align: center;
+      font: 600 .79rem/1.3 var(--serif);
+      transform: rotate(10deg)
+    }
+
+    .programs {
+      background: linear-gradient(115deg, #fff 0%, #fbf5e9 100%)
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px
+    }
+
+    .program {
+      min-height: 270px;
+      padding: 27px;
+      border: 1px solid var(--line);
+      background: #fffdf9;
+      transition: .35s;
+      position: relative;
+      overflow: hidden
+    }
+
+    .program:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+      box-shadow: 0 18px 35px #6b2a3b16
+    }
+
+    .program:before {
+      content: "";
+      position: absolute;
+      top: -55px;
+      right: -55px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: #d4af3715;
+      transition: .4s
+    }
+
+    .program:hover:before {
+      transform: scale(2)
+    }
+
+    .program-icon {
+      font: 2.25rem var(--serif);
+      color: var(--teal);
+      position: relative
+    }
+
+    .program h3 {
+      font: 600 1.54rem var(--serif);
+      color: var(--wine);
+      margin: 25px 0 10px
+    }
+
+    .program p {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: .9rem;
+      position: relative
+    }
+
+    .more {
+      background: none;
+      border: 0;
+      padding: 9px 0 2px;
+      color: var(--teal);
+      font-size: .71rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: .1em;
+      position: relative
+    }
+
+    .more:after {
+      content: "↗";
+      margin-left: 7px;
+      font-size: 1rem;
+      transition: .2s
+    }
+
+    .program:hover .more:after {
+      display: inline-block;
+      transform: translate(3px, -3px)
+    }
+
+    .details {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: .35s;
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.5
+    }
+
+    .program.open .details {
+      max-height: 68px;
+      opacity: 1
+    }
+
+    .program.open {
+      background: #fffbf0
+    }
+
+    .mentor {
+      display: grid;
+      grid-template-columns: .88fr 1.12fr;
+      align-items: center;
+      gap: clamp(35px, 8vw, 130px);
+      background: var(--wine);
+      color: white;
+    }
+
+    .mentor-photo {
+      position: relative;
+      margin: 15px
+    }
+
+    .mentor-photo:before {
+      content: "";
+      position: absolute;
+      inset: -15px;
+      border: 1px solid #efd37c88;
+      z-index: 1;
+      clip-path: polygon(0 18%, 15% 10%, 30% 25%, 45% 10%, 60% 26%, 75% 10%, 100% 18%, 100% 80%, 85% 90%, 70% 75%, 55% 90%, 40% 75%, 25% 90%, 0 80%)
+    }
+
+    .mentor-photo img {
+      width: 100%;
+      height: 580px;
+      object-fit: cover;
+      display: block;
+      filter: saturate(.88) contrast(1.08)
+    }
+
+    .mentor .eyebrow {
+      color: var(--gold-light)
+    }
+
+    .mentor h2 {
+      font: 600 clamp(2.5rem, 4vw, 4rem)/1 var(--serif);
+      margin: 15px 0;
+      color: white;
+      letter-spacing: -.05em
+    }
+
+    .mentor h2 span {
+      color: var(--gold-light);
+      font-style: italic
+    }
+
+    .mentor p {
+      line-height: 1.8;
+      color: #faeeeecc;
+      max-width: 590px
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 27px
+    }
+
+    .social {
+      width: 41px;
+      height: 41px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #ffffff66;
+      border-radius: 50%;
+      font-size: .72rem;
+      font-weight: bold;
+      transition: .25s
+    }
+
+    .social:hover {
+      color: var(--wine);
+      background: var(--gold);
+      border-color: var(--gold);
+      transform: translateY(-4px)
+    }
+
+    .milestones {
+      background: var(--teal);
+      color: #fff
+    }
+
+    .milestones .section-title h2 {
+      color: #fff
+    }
+
+    .milestones .section-title p {
+      color: #e3eff0
+    }
+
+    .milestones .eyebrow {
+      color: var(--gold-light)
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid #ffffff55;
+      border-bottom: 1px solid #ffffff55
+    }
+
+    .stat {
+      padding: 35px 22px;
+      border-right: 1px solid #ffffff36
+    }
+
+    .stat:last-child {
+      border: 0
+    }
+
+    .stat strong {
+      display: block;
+      font: 600 clamp(2.15rem, 4vw, 4rem)/1 var(--serif);
+      color: var(--gold-light);
+      letter-spacing: -.06em
+    }
+
+    .stat span {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-weight: bold;
+      color: #e4f3f3
+    }
+
+    .timeline {
+      margin-top: 82px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px
+    }
+
+    .time {
+      border-top: 1px solid #d4af37;
+      padding-top: 17px;
+      position: relative
+    }
+
+    .time:before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--gold)
+    }
+
+    .time b {
+      display: block;
+      color: var(--gold-light);
+      font: 600 1.3rem var(--serif)
+    }
+
+    .time p {
+      line-height: 1.6;
+      font-size: .87rem;
+      color: #e3eeee
+    }
+
+    .gallery {
+      background: #fffdf8
+    }
+
+    .gallery-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end
+    }
+
+    .gallery-head .section-title {
+      margin-bottom: 45px
+    }
+
+    .gallery-more {
+      margin-bottom: 48px;
+      color: var(--teal);
+      font-size: .75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: .1em
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr 1.15fr;
+      grid-template-rows: 240px 240px;
+      gap: 16px
+    }
+
+    .shot {
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+      cursor: zoom-in;
+      background: var(--wine)
+    }
+
+    .shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .65s cubic-bezier(.2, .7, .2, 1), opacity .3s
+    }
+
+    .shot:hover img {
+      transform: scale(1.1);
+      opacity: .8
+    }
+
+    .shot:after {
+      content: "View rhythm ↗";
+      position: absolute;
+      left: 18px;
+      bottom: 15px;
+      color: #fff;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-weight: bold;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: .3s
+    }
+
+    .shot:hover:after {
+      opacity: 1;
+      transform: none
+    }
+
+    .shot:nth-child(1) {
+      grid-row: span 2
+    }
+
+    .shot:nth-child(4) {
+      grid-column: span 2
+    }
+
+    .lightbox {
+      position: fixed;
+      z-index: 80;
+      inset: 0;
+      background: #291216e8;
+      display: none;
+      place-items: center;
+      padding: 30px
+    }
+
+    .lightbox.open {
+      display: grid
+    }
+
+    .lightbox img {
+      max-width: min(95vw, 1080px);
+      max-height: 84vh;
+      box-shadow: 0 18px 50px #0008
+    }
+
+    .close {
+      position: absolute;
+      top: 22px;
+      right: 30px;
+      color: #fff;
+      background: none;
+      border: 0;
+      font-size: 2rem
+    }
+
+    .contact {
+      background: var(--paper);
+      overflow: hidden
+    }
+
+    .contact:before {
+      content: "𝄞  𝄢  𝄞  𝄢  𝄞";
+      position: absolute;
+      right: -20px;
+      bottom: -50px;
+      font: 17rem var(--serif);
+      color: #6b2a3b08;
+      white-space: nowrap
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.08fr;
+      gap: clamp(35px, 8vw, 130px);
+      position: relative
+    }
+
+    .contact-card h3 {
+      font: 600 1.45rem var(--serif);
+      color: var(--wine);
+      margin: 0 0 22px
+    }
+
+    .contact-card p {
+      color: var(--muted);
+      line-height: 1.8
+    }
+
+    .info {
+      margin-top: 30px
+    }
+
+    .info div {
+      display: flex;
+      gap: 13px;
+      margin: 15px 0;
+      color: var(--ink);
+      font-size: .93rem
+    }
+
+    .info i {
+      font-style: normal;
+      color: var(--gold)
+    }
+
+    .map {
+      height: 165px;
+      margin-top: 25px;
+      overflow: hidden;
+      border: 5px solid #fff;
+      box-shadow: 0 8px 22px #6b2a3b14
+    }
+
+    .map iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      filter: sepia(.28) saturate(.8) hue-rotate(330deg)
+    }
+
+    .form {
+      padding: 34px;
+      background: #fffdf9;
+      box-shadow: 0 18px 40px #6b2a3b10
+    }
+
+    .field {
+      margin-bottom: 17px
+    }
+
+    .field label {
+      display: block;
+      font-size: .66rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: var(--wine);
+      margin-bottom: 7px
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid #c9bfb9;
+      background: transparent;
+      padding: 10px 0;
+      color: var(--ink);
+      outline: none;
+      transition: .25s
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--gold)
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 75px
+    }
+
+    .form .btn {
+      border: 0;
+      margin-top: 8px
+    }
+
+    .footer {
+      background: #4e1f2c;
+      color: #f5e8df;
+      padding: 30px 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .75rem
+    }
+
+    .footer .brand {
+      font-size: 1rem
+    }
+
+    .footer small {
+      opacity: .75
+    }
+
+    @media(max-width:800px) {
+      .links {
+        display: none
+      }
+
+      .menu {
+        display: block
+      }
+
+      .nav.open {
+        background: var(--cream);
+        color: var(--ink)
+      }
+
+      .nav.open .links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 23px;
+        padding: 27px 7vw;
+        background: var(--cream)
+      }
+
+      .hero-content {
+        padding-right: 0
+      }
+
+      .hero-foot {
+        display: none
+      }
+
+      .about,
+      .mentor,
+      .contact-grid {
+        grid-template-columns: 1fr
+      }
+
+      .collage {
+        min-height: 380px
+      }
+
+      .program-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .mentor-photo img {
+        height: 450px
+      }
+
+      .stats,
+      .timeline {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .stat:nth-child(2) {
+        border-right: 0
+      }
+
+      .stat:nth-child(-n+2) {
+        border-bottom: 1px solid #ffffff36
+      }
+
+      .gallery-grid {
+        grid-template-rows: 190px 190px
+      }
+
+      .footer {
+        gap: 20px;
+        flex-direction: column;
+        text-align: center
+      }
+    }
+
+    @media(max-width:500px) {
+      .section {
+        padding-inline: 23px
+      }
+
+      .hero h1 {
+        font-size: 3.1rem
+      }
+
+      .program-grid,
+      .stats,
+      .timeline {
+        grid-template-columns: 1fr
+      }
+
+      .stat {
+        border-right: 0;
+        border-bottom: 1px solid #ffffff36
+      }
+
+      .stat:last-child {
+        border-bottom: 0
+      }
+
+      .gallery-head {
+        display: block
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 160px 160px
+      }
+
+      .shot:nth-child(1) {
+        grid-row: span 2
+      }
+
+      .shot:nth-child(4) {
+        grid-column: span 1
+      }
+
+      .stamp {
+        width: 105px;
+        height: 105px;
+        font-size: .7rem
+      }
+
+      .collage .one {
+        width: 83%
+      }
+
+      .mentor-photo img {
+        height: 390px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="preloader">
+    <div class="vinyl"></div>
+    <p>Tuning the atmosphere</p>
+  </div>
+  <nav class="nav" id="nav"><a href="#home" class="brand"><span class="brand-mark">♬</span> Aura</a>
+    <div class="links"><a href="#about">Our story</a><a href="#programs">Programs</a><a href="#maestro">The
+        maestro</a><a href="#gallery">Gallery</a></div><a class="btn btn-gold" href="#contact">Enrol now</a><button
+      class="menu" aria-label="Open menu">☰</button>
+  </nav>
+  <header class="hero" id="home">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="notes" id="notes"></div>
+    <div class="hero-content reveal">
+      <div class="eyebrow"></div>
+      <h1>AURA MUSIC ACADEMY</em></h1>
+      <p>Aura Music Academy — a home for curious beginners, devoted performers, and the next generation of musical
+        voices.</p>
+      <div class="btn-row"><a class="btn btn-gold" href="#contact">Join the <span>→</span></a><a class="btn btn-ghost"
+          href="#programs">Explore programs</a></div>
+    </div>
+    <div class="hero-foot"><span class="scroll-mark">Scroll to listen</span><span class="hero-number">01 — Aura, in
+        every note</span></div>
+  </header>
+  <main>
+    <section class="section about" id="about">
+      <div class="about-copy reveal">
+        <div class="section-title">
+          <div class="eyebrow">A singular approach</div>
+          <h2>The Art of Teaching,<br>The Science of Music.</h2>
+        </div>
+        <p>For more than a quarter-century, Aura has nurtured artists in rooms made for listening. Our studio doors are
+          open to every age and ambition, with individual attention, remarkable instruments, and an uncompromising love
+          for the craft.</p>
+        <p>From the first carefully held chord to a final bow beneath the lights, we teach the whole musician:
+          confidence, curiosity, technique, and expression.</p>
+        <div class="signature">Aura, with feeling.</div>
+      </div>
+      <div class="collage reveal"><img class="one" alt="Warm sunlit piano studio"
+          src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?auto=format&fit=crop&w=1100&q=85"><img
+          class="two" alt="Acoustic guitar close up"
+          src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=750&q=85">
+        <div class="stamp">WORLD-CLASS<br>MENTORSHIP<br></div>
+      </div>
+    </section>
+    <section class="section programs" id="programs">
+      <div class="section-title reveal">
+        <div class="eyebrow">Find your sound</div>
+        <h2>The Symphony of Learning.</h2>
+        <p>A curriculum shaped around your musical personality, with clarity in every lesson and plenty of room to play.
+        </p>
+      </div>
+      <div class="program-grid">
+        <article class="program reveal">
+          <div class="program-icon">♩</div>
+          <h3>Instruments</h3>
+          <p>Acoustic & electric guitar, piano, violin, drums, and a proper introduction to the joy of practice.</p>
+          <button class="more">Learn more</button>
+          <div class="details">One-to-one lessons, masterclasses, and access to our curated instrument library.</div>
+        </article>
+        <article class="program reveal">
+          <div class="program-icon">𝄞</div>
+          <h3>Music Theory</h3>
+          <p>Music reading, ear training, harmony, and composition taught through the music you love.</p><button
+            class="more">Learn more</button>
+          <div class="details">Build the fluent musical vocabulary that turns instinct into creative freedom.</div>
+        </article>
+        <article class="program reveal">
+          <div class="program-icon">♬</div>
+          <h3>Performance</h3>
+          <p>Stage presence, ensemble playing, improvisation, and the quiet confidence to be heard.</p><button
+            class="more">Learn more</button>
+          <div class="details">Regular studio salons and showcase concerts give every student a real stage.</div>
+        </article>
+      </div>
+    </section>
+    <section class="section mentor" id="maestro">
+      <div class="mentor-photo reveal"><img
+          src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1100&q=85"
+          alt="Guitar instructor holding classical guitar"></div>
+      <div class="reveal">
+        <div class="eyebrow">Meet your mentor</div>
+        <h2>Maestro<br><span>V Prasanna</span></h2>
+        <p class="eyebrow" style="color:#f0d780">Head of Guitar & Composition</p>
+        <p>With over 10 years on concert stages and in teaching studios, V Prasanna Brings an encouraging, friendly
+          energy to every guitar and vocal lesson. Drawing on years of experience performing in sacred TTD devotional
+          concerts and diverse live bands, he transforms intricate techniques into simple, practical skills that any
+          student can immediately understand and apply..</p>
+        <p>His studio is a place to ask better questions, listen more deeply, and leave with a little more music in your
+          hands.</p>
+        <div class="socials"><a class="social" href="#" aria-label="YouTube">YT</a><a class="social" href="#"
+            aria-label="Spotify">SP</a><a class="social" href="#" aria-label="Instagram">IG</a></div>
+      </div>
+    </section>
+    <section class="section milestones">
+      <div class="section-title reveal">
+        <div class="eyebrow">Our enduring rhythm</div>
+        <h2>Decades of Dedication.</h2>
+        <p>Our story is measured in encores, shared discoveries, and students who find their own stage.</p>
+      </div>
+      <div class="stats reveal">
+        <div class="stat"><strong data-count="25" data-suffix="+">0</strong><span>Years of experience</span></div>
+        <div class="stat"><strong data-count="1200" data-suffix="+">0</strong><span>Maestros taught</span></div>
+        <div class="stat"><strong data-count="5" data-suffix="">0</strong><span>Global campuses</span></div>
+        <div class="stat"><strong data-count="300" data-suffix="+">0</strong><span>Live performances</span></div>
+      </div>
+      <div class="timeline reveal">
+        <div class="time"><b>1998</b>
+          <p>Aura opens its first sunlit studio in Florence.</p>
+        </div>
+        <div class="time"><b>2010</b>
+          <p>Our ensemble performs for the first time at Carnegie Hall.</p>
+        </div>
+        <div class="time"><b>2015</b>
+          <p>London Campus opens, uniting classical study with modern practice.</p>
+        </div>
+        <div class="time"><b>2024</b>
+          <p>1,200 musicians and a community still growing in harmony.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section gallery" id="gallery">
+      <div class="gallery-head reveal">
+        <div class="section-title">
+          <div class="eyebrow">Moments that resonate</div>
+          <h2>A Glimpse into Our Rhythm.</h2>
+        </div><a href="#contact" class="gallery-more">Begin your story →</a>
+      </div>
+      <div class="gallery-grid">
+        <figure class="shot"><img
+            src="https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&w=1000&q=85"
+            alt="Concert audience"></figure>
+        <figure class="shot"><img
+            src="https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=900&q=85"
+            alt="Musician playing guitar"></figure>
+        <figure class="shot"><img
+            src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=900&q=85"
+            alt="Singer performing"></figure>
+        <figure class="shot"><img
+            src="https://images.unsplash.com/photo-1524650359799-842906ca5e8a?auto=format&fit=crop&w=1200&q=85"
+            alt="Student playing piano"></figure>
+      </div>
+    </section>
+    <section class="section contact" id="contact">
+      <div class="contact-grid">
+        <div class="contact-card reveal">
+          <div class="section-title">
+            <div class="eyebrow">Your first note awaits</div>
+            <h2>Let's Make Music Together.</h2>
+            <p>Come by for a personal studio tour, a trial lesson, or simply a conversation about where your music could
+              go.</p>
+          </div>
+          <div class="info">
+            <div><i>✦</i> +1 212 555 0198</div>
+            <div><i>✦</i> hello@Aura.academy</div>
+            <div><i>✦</i> 28 Crescendo Lane, New York, NY</div>
+          </div>
+          <div class="map"><iframe title="Aura Music Academy location" loading="lazy"
+              src="https://www.google.com/maps?q=Manhattan,New%20York&output=embed"></iframe></div>
+        </div>
+        <form class="form reveal"
+          onsubmit="event.preventDefault(); this.querySelector('button').textContent='Message received — thank you!';">
+          <h3>Write to the academy</h3>
+          <div class="field"><label>Name</label><input required placeholder="Your name"></div>
+          <div class="field"><label>Email</label><input type="email" required placeholder="you@example.com"></div>
+          <div class="field"><label>Subject</label><input placeholder="How can we help?"></div>
+          <div class="field"><label>Message</label><textarea required
+              placeholder="Tell us about your musical ambitions..."></textarea></div><button class="btn btn-gold"
+            type="submit">Send your note →</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><a href="#home" class="brand"><span class="brand-mark">♬</span> Aura</a><small>© 2026 Aura
+      Music Academy. Crafted in perfect harmony.</small>
+    <div class="socials" style="margin:0"><a class="social" href="#">IG</a><a class="social" href="#">FB</a><a
+        class="social" href="#">YT</a></div>
+  </footer>
+  <div class="lightbox" id="lightbox"><button class="close" aria-label="Close image">×</button><img
+      alt="Gallery image expanded"></div>
+  <script>
+    window.addEventListener('load', () => setTimeout(() => document.querySelector('.preloader').classList.add('done'), 450));
+    const nav = document.querySelector('#nav'); window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 45));
+    document.querySelector('.menu').onclick = () => nav.classList.toggle('open');
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }), { threshold: .12 }); document.querySelectorAll('.reveal').forEach(e => observer.observe(e));
+    document.querySelectorAll('.more').forEach(b => b.onclick = () => { const card = b.closest('.program'); card.classList.toggle('open'); b.textContent = card.classList.contains('open') ? 'Less detail' : 'Learn more' });
+    const statObserver = new IntersectionObserver(entries => entries.forEach(e => { if (!e.isIntersecting) return; e.target.querySelectorAll('[data-count]').forEach(el => { let end = +el.dataset.count, start = performance.now(); (function tick(t) { let value = Math.min(1, (t - start) / 1500); el.textContent = Math.floor((1 - Math.pow(1 - value, 3)) * end).toLocaleString() + el.dataset.suffix; if (value < 1) requestAnimationFrame(tick) })(start) }); statObserver.unobserve(e.target) }), { threshold: .5 }); statObserver.observe(document.querySelector('.stats'));
+    const heroBg = document.querySelector('#heroBg'); window.addEventListener('mousemove', e => { heroBg.style.transform = `translate(${(e.clientX / innerWidth - .5) * -9}px,${(e.clientY / innerHeight - .5) * -9}px)` });
+    const notes = document.querySelector('#notes');['♪', '♫', '♩', '𝄞', '♪', '♬'].forEach((n, i) => { let x = document.createElement('span'); x.className = 'note'; x.textContent = n; x.style.cssText = `left:${12 + i * 16}%;top:${18 + (i % 3) * 26}%;--d:${3 + i * .6}s;--x:${i % 2 ? 12 : -10}px;--y:${i % 2 ? -18 : 16}px`; notes.append(x) });
+    const portrait = document.querySelector('.mentor-photo'); portrait.addEventListener('mousemove', e => { const r = portrait.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; portrait.style.transform = `perspective(900px) rotateY(${x * 5}deg) rotateX(${y * -5}deg)` }); portrait.addEventListener('mouseleave', () => portrait.style.transform = '');
+    const lb = document.querySelector('#lightbox'); document.querySelectorAll('.shot img').forEach(i => i.onclick = () => { lb.querySelector('img').src = i.src; lb.classList.add('open') }); lb.onclick = e => { if (e.target === lb || e.target.className === 'close') lb.classList.remove('open') };
+  </script>
+</body>
+
+</html>
